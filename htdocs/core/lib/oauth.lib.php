@@ -1,6 +1,7 @@
 <?php
 /* Copyright (C) 2012 Nicolas Villa aka Boyquotes http://informetic.fr
  * Copyright (C) 2013 Florian Henry <florian.henry@opn-concept.pro>
+ * Copyright (C) 2022      Henry GALVEZ      <henry@alograg.me>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +34,12 @@ if ($conf->global->MAIN_FEATURES_LEVEL >= 2) {
 }
 $supportedoauth2array['OAUTH_GITHUB_NAME'] = 'github';
 
-
+$oauthConstants = array(
+	'OPENID_AUTHENTICATION_URL',
+	'OPENID_TOKEN_URL',
+	'OPENID_CHECK_SESSION_URL',
+	'OPENID_USER_INFO_URL',
+);
 
 // API access parameters OAUTH
 $list = array(
@@ -282,6 +288,11 @@ function oauthadmin_prepare_head()
 	$head[$h][0] = dol_buildpath('/admin/oauthlogintokens.php', 1);
 	$head[$h][1] = $langs->trans("TokenManager");
 	$head[$h][2] = 'tokengeneration';
+	$h++;
+
+	$head[$h][0] = dol_buildpath('/admin/oauthopenidconnect.php', 1);
+	$head[$h][1] = $langs->trans("OpenIdConnect");
+	$head[$h][2] = 'openidconfig';
 	$h++;
 
 	complete_head_from_modules($conf, $langs, null, $head, $h, 'oauthadmin');
