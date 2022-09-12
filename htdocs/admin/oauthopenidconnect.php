@@ -66,10 +66,7 @@ if ($action == 'update') {
 
 	$openIdApp = GETPOST('OPENID_APP');
 	$openIdAppSecret = GETPOST('OPENID_SECRET');
-<<<<<<< HEAD
 	$openIdScope = GETPOST('OPENID_SCOPE');
-=======
->>>>>>> 9daaf0eaf7931a8ca0f247a64a1e27eb64b2b88f
 
 	$currConst = modOauth::getConstantsDefinition('OPENID_APP');
 	if (!dolibarr_set_const($db, 'OPENID_APP', $openIdApp, $currConst[1], $currConst[4], $currConst[3], $conf->entity)) {
@@ -84,10 +81,7 @@ if ($action == 'update') {
 	if (!empty($MAIN_AUTHENTICATION_OPENID_URL) && !empty($openIdApp) && !empty($openIdAppSecret)) {
 		$params = array(
 			"response_type"=>"code",
-<<<<<<< HEAD
 			"scope"=>$openIdScope,
-=======
->>>>>>> 9daaf0eaf7931a8ca0f247a64a1e27eb64b2b88f
 			"client_id"=>$openIdApp,
 			"redirect_uri"=>$redirect_uri,
 		);
@@ -99,14 +93,11 @@ if ($action == 'update') {
 		$error++;
 	}
 
-<<<<<<< HEAD
 	$currConst = modOauth::getConstantsDefinition('OPENID_SCOPE');
 	if ($error || !dolibarr_set_const($db, 'OPENID_SCOPE', $openIdScope, $currConst[1], $currConst[4], $currConst[3], $conf->entity)) {
 		$error++;
 	}
 
-=======
->>>>>>> 9daaf0eaf7931a8ca0f247a64a1e27eb64b2b88f
 	$currConst = modOauth::getConstantsDefinition('OPENID_GENERIC');
 	if ($error || !dolibarr_set_const($db, 'OPENID_GENERIC', 1, $currConst[1], $currConst[4], $currConst[3], $conf->entity)) {
 		$error++;
@@ -163,15 +154,12 @@ print '<td><label for="OPENID_SECRET">'.$langs->trans('OPENID_SECRET').'</label>
 print '<td><input type="password" size="100" id="OPENID_SECRET" name="OPENID_SECRET" value="'.$conf->global->OPENID_SECRET.'">';
 print '</td></tr>';
 
-<<<<<<< HEAD
 // OPENID_SCOPE
 print '<tr class="oddeven value">';
 print '<td><label for="OPENID_SCOPE">'.$langs->trans('OPENID_SCOPE').'</label></td>';
 print '<td><input type="test" size="100" id="OPENID_SCOPE" name="OPENID_SCOPE" value="'.$conf->global->OPENID_SCOPE.'">';
 print '</td></tr>';
 
-=======
->>>>>>> 9daaf0eaf7931a8ca0f247a64a1e27eb64b2b88f
 // URLs
 foreach ($oauthConstants as $const) {
 	print '<tr class="oddeven value">';

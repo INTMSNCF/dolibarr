@@ -131,17 +131,9 @@ class GenericOpenIdController {
 		$this->apiService = new GenericOpenIdService(
 			$this->credentials,
 			$this->httpClient,
-<<<<<<< HEAD
 			$this->storage,
 			explode(' ',$conf->global->OPENID_SCOPE)
 		);
-=======
-			$this->storage
-		);
-		//$this->apiService->requestAccessToken(GETPOST('code'));
-
-		//die(__FILE__ . ':' . __LINE__);
->>>>>>> 9daaf0eaf7931a8ca0f247a64a1e27eb64b2b88f
 	}
 
 	/**
