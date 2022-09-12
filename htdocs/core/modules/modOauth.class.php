@@ -155,7 +155,10 @@ class modOauth extends DolibarrModules
 				1
 			],
 			'OPENID_GENERIC'=>['OPENID_GENERIC', 'int', 0, 'Use OpenId personal server', 1, 'current', 1],
+<<<<<<< HEAD
 			'OPENID_SCOPE'=>['OPENID_SCOPE', 'string', 'openid profile email', 'Scope for OpenId', 1, 'current', 1],
+=======
+>>>>>>> 9daaf0eaf7931a8ca0f247a64a1e27eb64b2b88f
 			'OPENID_AUTHENTICATION_URL'=>['OPENID_AUTHENTICATION_URL', 'string', '', 'OpenId check session URL', 1, 'current', 1],
 			'OPENID_TOKEN_URL'=>['OPENID_TOKEN_URL', 'string', '', 'OpenId request token URL', 1, 'current', 1],
 			'OPENID_CHECK_SESSION_URL'=>['OPENID_CHECK_SESSION_URL', 'string', '', 'OpenId check session URL', 1, 'current', 1],

@@ -32,10 +32,13 @@ use OAuth\OAuth2\Service\AbstractService;
 
 class GenericOpenIdService extends AbstractService
 {
+<<<<<<< HEAD
 	const SCOPE_OPEN_ID = 'openid';
 	const SCOPE_PROFILE = 'profile';
 	const SCOPE_EMAIL = 'email';
 
+=======
+>>>>>>> 9daaf0eaf7931a8ca0f247a64a1e27eb64b2b88f
     /**
      * {@inheritdoc}
      */
