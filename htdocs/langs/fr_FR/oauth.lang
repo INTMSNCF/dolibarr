@@ -30,3 +30,15 @@ OAUTH_GITHUB_SECRET=Secret Oauth GitHub
 OAUTH_GITHUB_DESC=Allez sur <a class="notasortlink" href="https://github.com/settings/developers" target="_blank" rel="noopener noreferrer external"> cette page </a> puis "Enregistrer une nouvelle application" pour créer des identifiants OAuth
 OAUTH_STRIPE_TEST_NAME=OAuth Stripe Test
 OAUTH_STRIPE_LIVE_NAME=OAuth Stripe Live
+# OpenID
+OpenIdConnect=Configuration OpenID
+OpenIdConnectDescription=Configurez les paramètres nécessaires pour une connexion à un serveur OpenID
+CallbackURI=URL de rentre
+OPENID_AUTHENTICATION_URL=URL d'authentification
+OPENID_TOKEN_URL=URL pour demander un jeton
+OPENID_SCOPE=Demande de scope pour OpenID
+OPENID_CHECK_SESSION_URL=URL de validation de la session
+OPENID_USER_INFO_URL=URL de l'information de l'utilisateur
+URL_ERROR=URL INVALIDE
+OPENID_APP=Nom d'App
+OPENID_SECRET=Mot de passe de l'application

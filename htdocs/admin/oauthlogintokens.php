@@ -2,6 +2,7 @@
 /* Copyright (C) 2013-2016  Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2014-2018  Frederic France      <frederic.france@netlogic.fr>
  * Copyright (C) 2020		Nicolas ZABOURI      <info@inovea-conseil.com>
+ * Copyright (C) 2022      Henry GALVEZ      <henry@alograg.me>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -122,7 +123,7 @@ $urlwithroot = $urlwithouturlroot.DOL_URL_ROOT; // This is to use external domai
 
 $form = new Form($db);
 
-llxHeader('', $langs->trans("PrintingSetup"));
+llxHeader();
 
 $linkback = '<a href="'.DOL_URL_ROOT.'/admin/modules.php?restore_lastsearch_values=1">'.$langs->trans("BackToModuleList").'</a>';
 print load_fiche_titre($langs->trans('ConfigOAuth'), $linkback, 'title_setup');

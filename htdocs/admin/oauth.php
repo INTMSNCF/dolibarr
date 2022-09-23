@@ -1,6 +1,7 @@
 <?php
 /* Copyright (C) 2015-2018  Frederic France     <frederic.france@netlogic.fr>
  * Copyright (C) 2016       Raphaël Doursenaud  <rdoursenaud@gpcsolutions.fr>
+ * Copyright (C) 2022      Henry GALVEZ      <henry@alograg.me>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

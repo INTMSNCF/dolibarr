@@ -1,6 +1,7 @@
 <?php
 /* Copyright (C) 2014-2015 Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2015      Frederic France      <frederic.france@free.fr>
+ * Copyright (C) 2022      Henry GALVEZ      <henry@alograg.me>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -77,7 +78,7 @@ class modOauth extends DolibarrModules
 		$this->langfiles = array("oauth");
 
 		// Constants
-		$this->const = array();
+		$this->const = self::getConstantsDefinition();
 
 		// Boxes
 		$this->boxes = array();
@@ -140,5 +141,31 @@ class modOauth extends DolibarrModules
 		$sql = array();
 
 		return $this->_init($sql, $options);
+	}
+
+	public static function getConstantsDefinition($name = null) {
+		$const = array(
+			'MAIN_AUTHENTICATION_OPENID_URL' => [
+				'MAIN_AUTHENTICATION_OPENID_URL',
+				'string',
+				'',
+				'FULL OpenId authentification URL',
+				1,
+				'current',
+				1
+			],
+			'OPENID_GENERIC'=>['OPENID_GENERIC', 'int', 0, 'Use OpenId personal server', 1, 'current', 1],
+			'OPENID_SCOPE'=>['OPENID_SCOPE', 'string', 'openid profile email', 'Scope for OpenId', 1, 'current', 1],
+			'OPENID_AUTHENTICATION_URL'=>['OPENID_AUTHENTICATION_URL', 'string', '', 'OpenId check session URL', 1, 'current', 1],
+			'OPENID_TOKEN_URL'=>['OPENID_TOKEN_URL', 'string', '', 'OpenId request token URL', 1, 'current', 1],
+			'OPENID_CHECK_SESSION_URL'=>['OPENID_CHECK_SESSION_URL', 'string', '', 'OpenId check session URL', 1, 'current', 1],
+			'OPENID_USER_INFO_URL'=>['OPENID_USER_INFO_URL', 'string', '', 'OpenId user info URL', 1, 'current', 1],
+			'OPENID_APP'=>['OPENID_APP', 'string', '', 'OpenId App name', 1, 'current', 1],
+			'OPENID_SECRET'=>['OPENID_SECRET', 'string', '', 'OpenId secret', 1, 'current', 1],
+		);
+		if(empty($name)){
+			return array_values($const);
+		}
+		return array_key_exists($name, $const) ? $const[$name] : array_fill(0, 5, null);
 	}
 }
