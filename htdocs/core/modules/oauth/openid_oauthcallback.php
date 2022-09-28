@@ -26,7 +26,7 @@ $_GET['openid_mode'] = 'auth';
 //$_GET['actionlogin'] = 'login';
 require '../../../main.inc.php';
 
-$urlwithouturlroot = preg_replace('/'.preg_quote(DOL_URL_ROOT, '/').'$/i', '', trim($dolibarr_main_url_root));
+$urlwithouturlroot = preg_replace('/' . preg_quote(DOL_URL_ROOT, '/') . '$/i', '', trim($dolibarr_main_url_root));
 
-header('Location: '.$urlwithouturlroot . '?mainmenu=home&leftmenu=home');
+header('Location: ' . $urlwithouturlroot . '?mainmenu=home&leftmenu=home');
 exit();

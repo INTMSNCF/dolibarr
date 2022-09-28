@@ -22,7 +22,7 @@
  *      \brief      Authentication functions for OpenId mode
  */
 
-include_once DOL_DOCUMENT_ROOT.'/core/class/openid.class.php';
+include_once DOL_DOCUMENT_ROOT . '/core/class/openid.class.php';
 
 
 /**
@@ -38,19 +38,22 @@ function check_user_password_openid($usertotest, $passwordtotest, $entitytotest)
 {
 	global $db, $conf, $langs;
 
-	dol_syslog("functions_openid::check_user_password_openid usertotest=".$usertotest);
+	dol_syslog("functions_openid::check_user_password_openid usertotest=" . $usertotest);
 
 	$login = false;
 
-	if (GETPOST('actionlogin')=='login') return false;
+	dol_syslog("functions_openid::check_user_password_openid actionlogin=" . json_encode(GETPOST('actionlogin')), LOG_DEBUG);
+	if (GETPOST('actionlogin') == 'login') return false;
 
+	dol_syslog("functions_openid::check_user_password_openid OPENID_GENERIC=" . json_encode($conf->global->OPENID_GENERIC), LOG_DEBUG);
 	if (!empty($conf->global->OPENID_GENERIC)) {
 		// Connecting to generic server
-		require_once DOL_DOCUMENT_ROOT.'/core/modules/oauth/GenericOpenIdController.class.php';
+		require_once DOL_DOCUMENT_ROOT . '/core/modules/oauth/GenericOpenIdController.class.php';
 		$control = new GenericOpenIdController($db, $conf);
 		$user = $control->serverCallback(GETPOST('code'));
-		if(is_object($user))
-			$login=$user->login;
+		if (is_object($user))
+			$login = $user->login;
+		dol_syslog("functions_openid::check_user_password_openid OPENID_GENERIC=" . json_encode($user), LOG_DEBUG);
 	}
 
 	return $login;

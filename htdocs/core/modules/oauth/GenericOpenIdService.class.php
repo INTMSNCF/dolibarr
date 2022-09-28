@@ -24,7 +24,8 @@
 
 
 require_once (DOL_DOCUMENT_ROOT ?: '../../..') . '/main.inc.php';
-require_once DOL_DOCUMENT_ROOT.'/includes/OAuth/bootstrap.php';
+require_once DOL_DOCUMENT_ROOT . '/includes/OAuth/bootstrap.php';
+
 use OAuth\OAuth2\Token\StdOAuth2Token;
 use OAuth\Common\Http\Exception\TokenResponseException;
 use OAuth\Common\Http\Uri\Uri;
@@ -36,104 +37,110 @@ class GenericOpenIdService extends AbstractService
 	const SCOPE_PROFILE = 'profile';
 	const SCOPE_EMAIL = 'email';
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getAuthorizationEndpoint()
-    {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAuthorizationEndpoint()
+	{
 		global $conf;
-        return new Uri($conf->global->OPENID_AUTHENTICATION_URL);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAccessTokenEndpoint()
-    {
-		global $conf;
-        return new Uri($conf->global->OPENID_TOKEN_URL);
-    }
-
-    /**
-     * Get user info endpoint URL
-	 *
-	 * @return Uri
-     */
-    public function getUserInfoEndpoint()
-    {
-		global $conf;
-        return new Uri($conf->global->OPENID_USER_INFO_URL);
-    }
-
-    /**
-     * Return any additional headers always needed for this service implementation's OAuth calls.
-     *
-     * @return array
-     */
-    protected function getExtraOAuthHeaders()
-    {
-        return array(
-			'Content-Type'=>'application/x-www-form-urlencoded',
-			'Authorization'=>'Basic ' . base64_encode($this->credentials->getConsumerId() . ':'.$this->credentials->getConsumerSecret()),
-		);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function requestAccessToken($code, $state = null)
-    {
-        if (null !== $state) {
-            $this->validateAuthorizationState($state);
-        }
-
-        $bodyParams = array(
-            'code'          => $code,
-            'redirect_uri'  => $this->credentials->getCallbackUrl(),
-            'grant_type'    => 'authorization_code',
-        );
-
-        $responseBody = $this->httpClient->retrieveResponse(
-            $this->getAccessTokenEndpoint(),
-            $bodyParams,
-            $this->getExtraOAuthHeaders()
-        );
-
-        $token = $this->parseAccessTokenResponse($responseBody);
-        $this->storage->storeAccessToken($this->service(), $token);
-
-        return $token;
-    }
+		return new Uri($conf->global->OPENID_AUTHENTICATION_URL);
+	}
 
 	/**
-     * {@inheritdoc}
-     */
-    protected function parseAccessTokenResponse($responseBody)
-    {
-        $data = json_decode($responseBody, true);
+	 * {@inheritdoc}
+	 */
+	public function getAccessTokenEndpoint()
+	{
+		global $conf;
+		return new Uri($conf->global->OPENID_TOKEN_URL);
+	}
 
-        if (null === $data || !is_array($data)) {
-            throw new TokenResponseException('Unable to parse response.');
-        } elseif (isset($data['error'])) {
-            throw new TokenResponseException('Error in retrieving token: "' . $data['error'] . '"');
-        }
+	/**
+	 * Get user info endpoint URL
+	 *
+	 * @return Uri
+	 */
+	public function getUserInfoEndpoint()
+	{
+		global $conf;
+		return new Uri($conf->global->OPENID_USER_INFO_URL);
+	}
 
-        $token = new StdOAuth2Token();
-        $token->setAccessToken($data['access_token']);
-        $token->setLifetime($data['expires_in']);
+	/**
+	 * Return any additional headers always needed for this service implementation's OAuth calls.
+	 *
+	 * @return array
+	 */
+	protected function getExtraOAuthHeaders()
+	{
+		return array(
+			'Content-Type' => 'application/x-www-form-urlencoded',
+			'Authorization' => 'Basic ' . base64_encode($this->credentials->getConsumerId() . ':' . $this->credentials->getConsumerSecret()),
+		);
+	}
 
-        if (isset($data['refresh_token'])) {
-            $token->setRefreshToken($data['refresh_token']);
-            unset($data['refresh_token']);
-        }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function requestAccessToken($code, $state = null)
+	{
+		dol_syslog('SSO - ' . __CLASS__ . "::" . __FUNCTION__ . ' line ' . __LINE__ . ' event = ' . json_encode(['called', $code, $state]), LOG_DEBUG);
+		if (null !== $state) {
+			$this->validateAuthorizationState($state);
+		}
 
-        unset($data['access_token']);
-        unset($data['expires_in']);
+		$bodyParams = array(
+			'code'          => $code,
+			'redirect_uri'  => $this->credentials->getCallbackUrl(),
+			'grant_type'    => 'authorization_code',
+		);
 
-        $token->setExtraParams($data);
+		dol_syslog('SSO - ' . __CLASS__ . "::" . __FUNCTION__ . ' line ' . __LINE__ . ' event = do call with ' . json_encode($bodyParams), LOG_DEBUG);
 
-        return $token;
-    }
+		$responseBody = $this->httpClient->retrieveResponse(
+			$this->getAccessTokenEndpoint(),
+			$bodyParams,
+			$this->getExtraOAuthHeaders()
+		);
+
+		dol_syslog('SSO - ' . __CLASS__ . "::" . __FUNCTION__ . ' line ' . __LINE__ . ' event = response with ' . $responseBody, LOG_DEBUG);
+
+		$token = $this->parseAccessTokenResponse($responseBody);
+		$this->storage->storeAccessToken($this->service(), $token);
+
+		return $token;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function parseAccessTokenResponse($responseBody)
+	{
+		$data = json_decode($responseBody, true);
+		dol_syslog('SSO - ' . __CLASS__ . "::" . __FUNCTION__ . ' line ' . __LINE__ . ' event = ' . json_encode(['called', $data]), LOG_DEBUG);
+
+		if (null === $data || !is_array($data)) {
+			throw new TokenResponseException('Unable to parse response.');
+		} elseif (isset($data['error'])) {
+			throw new TokenResponseException('Error in retrieving token: "' . $data['error'] . '"');
+		}
+
+		$token = new StdOAuth2Token();
+		$token->setAccessToken($data['access_token']);
+		$token->setLifetime($data['expires_in']);
+
+		if (isset($data['refresh_token'])) {
+			$token->setRefreshToken($data['refresh_token']);
+			unset($data['refresh_token']);
+		}
+
+		unset($data['access_token']);
+		unset($data['expires_in']);
+
+		$token->setExtraParams($data);
+
+		return $token;
+	}
 
 	/**
 	 * Get user info
@@ -142,8 +149,8 @@ class GenericOpenIdService extends AbstractService
 	 */
 	public function requestUserInfo($token = null)
 	{
-		if(empty($token))
-		{
+		dol_syslog('SSO - ' . __CLASS__ . "::" . __FUNCTION__ . ' line ' . __LINE__ . ' event = ' . json_encode(['called', $token]), LOG_DEBUG);
+		if (empty($token)) {
 			$token = $this->storage->retrieveAccessToken($this->service());
 		}
 		$headers = array(
@@ -157,7 +164,6 @@ class GenericOpenIdService extends AbstractService
 			);
 		} catch (Exception $err) {
 			throw new Exception('OpenId Server Error: ' . $err->getMessage());
-
 		}
 
 		return json_decode($responseBody);
