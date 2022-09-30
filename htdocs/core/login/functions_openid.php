@@ -53,7 +53,7 @@ function check_user_password_openid($usertotest, $passwordtotest, $entitytotest)
 		$user = $control->serverCallback(GETPOST('code'));
 		if (is_object($user))
 			$login = $user->login;
-		dol_syslog("functions_openid::check_user_password_openid OPENID_GENERIC=" . json_encode($user), LOG_DEBUG);
+		dol_syslog("functions_openid::check_user_password_openid user=" . json_encode($user), LOG_DEBUG);
 	}
 
 	return $login;

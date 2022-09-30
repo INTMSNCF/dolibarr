@@ -103,7 +103,7 @@ class GenericOpenIdController
 			$dolibarr_main_url_root = $_SERVER["SERVER_URL"] . $_SERVER["DOCUMENT_URI"];
 		} else {
 			// If SCRIPT_URI, SERVER_URL, DOCUMENT_URI not defined (Ie: Apache 2.0.44 for Windows)
-			$proto = ((!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') || (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) ? 'https' : 'http';
+			$proto = ((!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') || (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) ? 'https' : 'https';
 			if (!empty($_SERVER["HTTP_HOST"])) {
 				$serverport = $_SERVER["HTTP_HOST"];
 			} elseif (!empty($_SERVER["SERVER_NAME"])) {
@@ -111,6 +111,7 @@ class GenericOpenIdController
 			} else {
 				$serverport = 'localhost';
 			}
+			$proto = 'https';
 			$dolibarr_main_url_root = $proto . "://" . $serverport . $_SERVER["SCRIPT_NAME"];
 		}
 		// Clean proposed URL
